@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key><string>ja</string>
+	<key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+	<key>CFBundleName</key><string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key><string>XPC!</string>
+	<key>CFBundleShortVersionString</key><string>1.0</string>
+	<key>CFBundleVersion</key><string>1</string>
+	<key>XPCService</key>
+	<dict>
+		<key>ServiceType</key><string>Application</string>
+	</dict>
+	<key>ProPlugPlugInList</key>
+	<array>
+		<dict>
+			<key>className</key><string>PersonRetouchPlugIn</string>
+			<key>displayName</key><string>人物補正</string>
+			<key>group</key><string>B7C1D2E0-4A57-4F7B-9E52-0D6A1F3C8A10</string>
+			<key>infoString</key><string>肌・顔・体の部位別補正</string>
+			<key>uuid</key><string>5E0A8C3B-91D4-4C86-A1F5-7B2E64D09C21</string>
+			<key>version</key><string>1</string>
+		</dict>
+	</array>
+	<key>ProPlugPlugInGroupList</key>
+	<array>
+		<dict>
+			<key>name</key><string>人物補正</string>
+			<key>uuid</key><string>B7C1D2E0-4A57-4F7B-9E52-0D6A1F3C8A10</string>
+		</dict>
+	</array>
+</dict>
+</plist>

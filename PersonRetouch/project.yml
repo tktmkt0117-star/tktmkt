@@ -1,0 +1,47 @@
+# XcodeGen 用。`brew install xcodegen && xcodegen` で PersonRetouch.xcodeproj を生成する。
+# 前提: FxPlug SDK (https://developer.apple.com/final-cut-pro/) が /Library/Developer/Frameworks にあること。
+name: PersonRetouch
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    macOS: "13.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    FRAMEWORK_SEARCH_PATHS: ["/Library/Developer/Frameworks"]
+    CODE_SIGN_STYLE: Automatic
+    # DEVELOPMENT_TEAM: ここに自分の Team ID
+targets:
+  PersonRetouch:                      # 入れ物アプリ
+    type: application
+    platform: macOS
+    sources: [Wrapper]
+    info:
+      path: Wrapper/Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.PersonRetouch
+    dependencies:
+      - target: PersonRetouchPlugIn
+        embed: true
+        copy:
+          destination: xpcServices
+  PersonRetouchPlugIn:                # 本体 (XPC サービス)
+    type: xpc-service
+    platform: macOS
+    sources:
+      - Plugin
+      - Shared
+    info:
+      path: Plugin/Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.PersonRetouch.PlugIn
+        SWIFT_OBJC_BRIDGING_HEADER: Plugin/Plugin-Bridging-Header.h
+        ENABLE_HARDENED_RUNTIME: YES
+        LD_RUNPATH_SEARCH_PATHS: ["@executable_path/../Frameworks", "@loader_path/../Frameworks"]
+    dependencies:
+      - framework: /Library/Developer/Frameworks/FxPlug.framework
+        embed: true
+      - sdk: Metal.framework
+      - sdk: Vision.framework
