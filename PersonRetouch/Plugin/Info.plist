@@ -10,10 +10,37 @@
 	<key>CFBundlePackageType</key><string>XPC!</string>
 	<key>CFBundleShortVersionString</key><string>1.0</string>
 	<key>CFBundleVersion</key><string>1</string>
+
+	<!-- FxPlug 4: PlugInKit に見つけてもらうための項目 -->
+	<key>PlugInKit</key>
+	<dict>
+		<key>PrincipalClass</key><string>FxPrincipal</string>
+		<key>Protocol</key><string>PROXPCProtocol</string>
+		<key>Attributes</key>
+		<dict>
+			<key>com.apple.protocol</key><string>FxPlug</string>
+			<key>com.apple.version</key><string>1</string>
+		</dict>
+	</dict>
+
 	<key>XPCService</key>
 	<dict>
 		<key>ServiceType</key><string>Application</string>
+		<key>RunLoopType</key><string>_NSApplication</string>
+		<key>JoinExistingSession</key><true/>
+		<key>_AdditionalSubServices</key>
+		<dict>
+			<key>viewbridge</key><true/>
+		</dict>
 	</dict>
+
+	<key>ProPlugPlugInGroupList</key>
+	<array>
+		<dict>
+			<key>groupName</key><string>人物補正</string>
+			<key>uuid</key><string>B7C1D2E0-4A57-4F7B-9E52-0D6A1F3C8A10</string>
+		</dict>
+	</array>
 	<key>ProPlugPlugInList</key>
 	<array>
 		<dict>
@@ -21,15 +48,12 @@
 			<key>displayName</key><string>人物補正</string>
 			<key>group</key><string>B7C1D2E0-4A57-4F7B-9E52-0D6A1F3C8A10</string>
 			<key>infoString</key><string>肌・顔・体の部位別補正</string>
+			<key>protocolNames</key>
+			<array>
+				<string>FxFilter</string>
+			</array>
 			<key>uuid</key><string>5E0A8C3B-91D4-4C86-A1F5-7B2E64D09C21</string>
 			<key>version</key><string>1</string>
-		</dict>
-	</array>
-	<key>ProPlugPlugInGroupList</key>
-	<array>
-		<dict>
-			<key>name</key><string>人物補正</string>
-			<key>uuid</key><string>B7C1D2E0-4A57-4F7B-9E52-0D6A1F3C8A10</string>
 		</dict>
 	</array>
 </dict>
