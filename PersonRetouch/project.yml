@@ -28,8 +28,7 @@ targets:
       - target: PersonRetouchPlugIn
         embed: true
         copy:
-          destination: wrapper
-          subpath: Contents/XPCServices
+          destination: plugins
   PersonRetouchPlugIn:                # 本体 (XPC サービス)
     type: xpc-service
     platform: macOS
@@ -42,11 +41,17 @@ targets:
         GENERATE_INFOPLIST_FILE: NO
         PRODUCT_BUNDLE_IDENTIFIER: com.example.PersonRetouch.PlugIn
         SWIFT_OBJC_BRIDGING_HEADER: Plugin/Plugin-Bridging-Header.h
+        WRAPPER_EXTENSION: pluginkit                  # 拡張子を .pluginkit にする(FxPlug 4 の要件)
+        ADDITIONAL_SDKS: /Library/Developer/SDKs/FxPlug.sdk
+        CODE_SIGN_INJECT_BASE_ENTITLEMENTS: YES
         ENABLE_HARDENED_RUNTIME: YES
         OTHER_LDFLAGS: ["-framework", "FxPlug"]
         LD_RUNPATH_SEARCH_PATHS: ["@executable_path/../Frameworks", "@loader_path/../Frameworks"]
     dependencies:
       - framework: /Library/Developer/Frameworks/FxPlug.framework   # 実行時の本体を同梱(リンクは上の OTHER_LDFLAGS)
+        embed: true
+        link: false
+      - framework: /Library/Developer/Frameworks/PluginManager.framework   # FxPlug の実行時に必要
         embed: true
         link: false
       - sdk: Metal.framework

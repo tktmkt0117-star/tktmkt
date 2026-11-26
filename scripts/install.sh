@@ -9,6 +9,8 @@ cd "$(dirname "$0")/../PersonRetouch"
 command -v xcodebuild >/dev/null || { echo "Xcode が必要です(App Store から導入)"; exit 1; }
 [[ -d /Library/Developer/Frameworks/FxPlug.framework ]] || {
   echo "FxPlug SDK が見つかりません。https://developer.apple.com/final-cut-pro/ から導入してください"; exit 1; }
+[[ -d /Library/Developer/Frameworks/PluginManager.framework ]] || {
+  echo "PluginManager.framework が見つかりません(FxPlug SDK の pkg を入れ直してください)"; exit 1; }
 [[ -n "${DEVELOPMENT_TEAM:-}" ]] || { echo "DEVELOPMENT_TEAM=<Team ID> を指定してください"; exit 1; }
 
 # Homebrew 版・最新バイナリは macOS 13 で動かないため、動作確認済みの旧バージョンを直接取得する
@@ -33,6 +35,10 @@ APP="build/Build/Products/Release/PersonRetouch.app"
 rm -rf /Applications/PersonRetouch.app
 cp -R "$APP" /Applications/
 open /Applications/PersonRetouch.app     # 初回起動でプラグインが登録される
+sleep 2
+pluginkit -a /Applications/PersonRetouch.app/Contents/PlugIns/PersonRetouchPlugIn.pluginkit 2>/dev/null || true
+echo "--- PlugInKit への登録状況(PersonRetouch が出れば登録できています) ---"
+pluginkit -m -v -p FxPlug | grep -i PersonRetouch || echo "(登録が見つかりません)"
 
 if pgrep -x "Final Cut Pro" >/dev/null; then
   echo "Final Cut Pro を再起動してください"
