@@ -16,26 +16,27 @@ targets:
     type: application
     platform: macOS
     sources: [Wrapper]
-    info:
-      path: Wrapper/Info.plist
     settings:
       base:
+        INFOPLIST_FILE: Wrapper/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
         PRODUCT_BUNDLE_IDENTIFIER: com.example.PersonRetouch
     dependencies:
       - target: PersonRetouchPlugIn
         embed: true
         copy:
-          destination: xpcServices
+          destination: wrapper
+          subpath: Contents/XPCServices
   PersonRetouchPlugIn:                # 本体 (XPC サービス)
     type: xpc-service
     platform: macOS
     sources:
       - Plugin
       - Shared
-    info:
-      path: Plugin/Info.plist
     settings:
       base:
+        INFOPLIST_FILE: Plugin/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
         PRODUCT_BUNDLE_IDENTIFIER: com.example.PersonRetouch.PlugIn
         SWIFT_OBJC_BRIDGING_HEADER: Plugin/Plugin-Bridging-Header.h
         ENABLE_HARDENED_RUNTIME: YES
