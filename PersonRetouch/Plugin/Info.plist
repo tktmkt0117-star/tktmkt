@@ -26,7 +26,7 @@
 	<key>XPCService</key>
 	<dict>
 		<key>ServiceType</key><string>Application</string>
-		<key>RunLoopType</key><string>NSRunLoop</string>
+		<key>RunLoopType</key><string>_NSApplicationMain</string>
 		<key>JoinExistingSession</key><true/>
 		<key>_AdditionalSubServices</key>
 		<dict>
@@ -53,7 +53,7 @@
 				<string>FxFilter</string>
 			</array>
 			<key>uuid</key><string>5E0A8C3B-91D4-4C86-A1F5-7B2E64D09C21</string>
-			<key>version</key><string>1</string>
+			<key>version</key><string>1.0</string>
 		</dict>
 	</array>
 </dict>

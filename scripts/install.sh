@@ -32,8 +32,12 @@ xcodebuild -project PersonRetouch.xcodeproj -scheme PersonRetouch -configuration
   -derivedDataPath build DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM" -allowProvisioningUpdates build
 
 APP="build/Build/Products/Release/PersonRetouch.app"
+# 以前の登録(ビルド用コピー・古い版)を外してから入れ直す
+pluginkit -r "$PWD/$APP/Contents/PlugIns/PersonRetouchPlugIn.pluginkit" 2>/dev/null || true
+pluginkit -r /Applications/PersonRetouch.app/Contents/PlugIns/PersonRetouchPlugIn.pluginkit 2>/dev/null || true
 rm -rf /Applications/PersonRetouch.app
 cp -R "$APP" /Applications/
+rm -rf "$APP"                            # ビルド用コピーが重複登録されないよう削除
 open /Applications/PersonRetouch.app     # 初回起動でプラグインが登録される
 sleep 2
 pluginkit -a /Applications/PersonRetouch.app/Contents/PlugIns/PersonRetouchPlugIn.pluginkit 2>/dev/null || true
