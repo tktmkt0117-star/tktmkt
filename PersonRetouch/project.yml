@@ -8,7 +8,10 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.0"
-    FRAMEWORK_SEARCH_PATHS: ["/Library/Developer/Frameworks"]
+    # ヘッダー等のビルド用は SDK 側、実行時の本体は /Library/Developer/Frameworks にある
+    FRAMEWORK_SEARCH_PATHS:
+      - /Library/Developer/SDKs/FxPlug.sdk/Library/Frameworks
+      - /Library/Developer/Frameworks
     CODE_SIGN_STYLE: Automatic
     # DEVELOPMENT_TEAM: ここに自分の Team ID
 targets:
@@ -40,9 +43,11 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.example.PersonRetouch.PlugIn
         SWIFT_OBJC_BRIDGING_HEADER: Plugin/Plugin-Bridging-Header.h
         ENABLE_HARDENED_RUNTIME: YES
+        OTHER_LDFLAGS: ["-framework", "FxPlug"]
         LD_RUNPATH_SEARCH_PATHS: ["@executable_path/../Frameworks", "@loader_path/../Frameworks"]
     dependencies:
-      - framework: /Library/Developer/Frameworks/FxPlug.framework
+      - framework: /Library/Developer/Frameworks/FxPlug.framework   # 実行時の本体を同梱(リンクは上の OTHER_LDFLAGS)
         embed: true
+        link: false
       - sdk: Metal.framework
       - sdk: Vision.framework
