@@ -11,17 +11,18 @@ command -v xcodebuild >/dev/null || { echo "Xcode が必要です(App Store か�
   echo "FxPlug SDK が見つかりません。https://developer.apple.com/final-cut-pro/ から導入してください"; exit 1; }
 [[ -n "${DEVELOPMENT_TEAM:-}" ]] || { echo "DEVELOPMENT_TEAM=<Team ID> を指定してください"; exit 1; }
 
-# Homebrew 版は古い macOS で入らないことがあるため、配布済みバイナリを直接取得する
-if command -v xcodegen >/dev/null; then
+# Homebrew 版・最新バイナリは macOS 13 で動かないため、動作確認済みの旧バージョンを直接取得する
+XCODEGEN_VERSION="2.38.0"
+if command -v xcodegen >/dev/null && xcodegen --version >/dev/null 2>&1; then
   XCODEGEN=xcodegen
 else
-  TOOLS="$PWD/.tools"
-  if [[ ! -x "$TOOLS/xcodegen/bin/xcodegen" ]]; then
-    mkdir -p "$TOOLS"
-    curl -fL "https://github.com/yonaskolb/XcodeGen/releases/latest/download/xcodegen.zip" -o "$TOOLS/xcodegen.zip"
-    unzip -q -o "$TOOLS/xcodegen.zip" -d "$TOOLS"
+  DEST="$PWD/.tools/xcodegen-$XCODEGEN_VERSION"
+  if [[ ! -x "$DEST/xcodegen/bin/xcodegen" ]]; then
+    mkdir -p "$DEST"
+    curl -fL "https://github.com/yonaskolb/XcodeGen/releases/download/$XCODEGEN_VERSION/xcodegen.zip" -o "$DEST/xcodegen.zip"
+    unzip -q -o "$DEST/xcodegen.zip" -d "$DEST"
   fi
-  XCODEGEN="$TOOLS/xcodegen/bin/xcodegen"
+  XCODEGEN="$DEST/xcodegen/bin/xcodegen"
 fi
 "$XCODEGEN" generate
 
