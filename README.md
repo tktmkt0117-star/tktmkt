@@ -47,7 +47,7 @@
 > 手順 1〜5 は `DEVELOPMENT_TEAM=<Team ID> ./scripts/install.sh` でまとめて実行できます（FxPlug SDK と Xcode は事前に必要です）。
 
 1. [FxPlug SDK](https://developer.apple.com/final-cut-pro/) をインストールします（`/Library/Developer/Frameworks/FxPlug.framework` ができます）。
-2. `brew install xcodegen`
+2. XcodeGen は配布済みバイナリを自動で取得します（Homebrew は不要）
 3. `cd PersonRetouch && xcodegen`（`project.yml` に自分の `DEVELOPMENT_TEAM` を入れておきます）
 4. `PersonRetouch.xcodeproj` を開いてビルドし、できた `PersonRetouch.app` を `/Applications` に置いて 1 回起動します。
 5. Final Cut Pro を再起動し、エフェクト › 人物補正 › 人物補正 をクリップにドラッグします。

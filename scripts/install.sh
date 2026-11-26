@@ -11,8 +11,19 @@ command -v xcodebuild >/dev/null || { echo "Xcode が必要です(App Store か�
   echo "FxPlug SDK が見つかりません。https://developer.apple.com/final-cut-pro/ から導入してください"; exit 1; }
 [[ -n "${DEVELOPMENT_TEAM:-}" ]] || { echo "DEVELOPMENT_TEAM=<Team ID> を指定してください"; exit 1; }
 
-command -v xcodegen >/dev/null || brew install xcodegen
-xcodegen generate
+# Homebrew 版は古い macOS で入らないことがあるため、配布済みバイナリを直接取得する
+if command -v xcodegen >/dev/null; then
+  XCODEGEN=xcodegen
+else
+  TOOLS="$PWD/.tools"
+  if [[ ! -x "$TOOLS/xcodegen/bin/xcodegen" ]]; then
+    mkdir -p "$TOOLS"
+    curl -fL "https://github.com/yonaskolb/XcodeGen/releases/latest/download/xcodegen.zip" -o "$TOOLS/xcodegen.zip"
+    unzip -q -o "$TOOLS/xcodegen.zip" -d "$TOOLS"
+  fi
+  XCODEGEN="$TOOLS/xcodegen/bin/xcodegen"
+fi
+"$XCODEGEN" generate
 
 xcodebuild -project PersonRetouch.xcodeproj -scheme PersonRetouch -configuration Release \
   -derivedDataPath build DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM" -allowProvisioningUpdates build
